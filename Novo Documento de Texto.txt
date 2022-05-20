@@ -1,0 +1,17 @@
+-- 1 - A coluna “id_mix” combina o sexo do cliente com o seu, quando Feminino indicado pelo prefixo “F_” e quando Masculino 
+--indicado pelo prefixo “M_”, usando as funções de tratamento de string (SUBSTRING() e CHARINDEX()), 
+--trate a coluna  “id_mix” separando-a em duas colunas uma contendo o ID único do cliente e outra coluna com o sexo 
+--(os nomes devem aparecer como “Masculino” e “Feminino” ao invés de conter somente a letra).
+
+
+UPDATE clientes
+SET "id" = (CASE "id_mix" WHEN "F" THEN "Femenino" WHEN "M" THEN "Masculino" END) 
+
+ALTER TABLE clientes
+ADD COLUMN "id" 
+
+UPDATE clientes
+SET id = SUBSTRING ("id_mix",3,6)
+
+ALTER TABLE clientes
+DROP id_mix
