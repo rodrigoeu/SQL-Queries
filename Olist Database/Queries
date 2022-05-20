@@ -1,5 +1,5 @@
--- retorne a quantidade de itens vendidos em cada categoria por estado em que o cliente se encontra, 
--- mostrando somente categorias que tenham vendido uma quantidade de items acima de 1000.
+-- 1) retorne a quantidade de itens vendidos em cada categoria por estado em que o cliente se encontra, 
+--    mostrando somente categorias que tenham vendido uma quantidade de items acima de 1000.
 
 SELECT COUNT (olist_products_dataset.product_id) as volume, olist_products_dataset.product_category_name, olist_customers_dataset.customer_state
 FROM olist_products_dataset INNER JOIN olist_order_items_dataset, olist_orders_dataset, olist_customers_dataset 
@@ -7,4 +7,15 @@ ON olist_products_dataset.product_id = olist_order_items_dataset.product_id AND 
 AND olist_orders_dataset.customer_id = olist_customers_dataset.customer_id
 GROUP BY olist_products_dataset.product_category_name, olist_customers_dataset.customer_state HAVING count (product_category_name) > 1000
 
+
+
+-- 2) mostre o valor vendido total de cada vendedor (seller_id) em cada uma das categorias de produtos, somente retornando as categorias  
+--    que venderam mais de $1000. 
+--    Desejamos ver a categoria do produto e os vendedores. 
+--    Para cada uma dessas categorias, mostre seus valores de venda de forma decrescente.
+
+SELECT olist_sellers_dataset.seller_id, olist_products_dataset.product_category_name, SUM (olist_order_items_dataset.price) AS soma FROM olist_sellers_dataset 
+LEFT JOIN olist_products_dataset, olist_order_items_dataset ON olist_sellers_dataset.seller_id = olist_order_items_dataset.seller_id 
+AND olist_order_items_dataset.product_id = olist_products_dataset.product_id WHERE olist_order_items_dataset.price > 1000
+GROUP BY olist_order_items_dataset.seller_id,olist_products_dataset.product_category_name ORDER BY olist_products_dataset.product_category_name, soma DESC
 
