@@ -1,0 +1,10 @@
+-- retorne a quantidade de itens vendidos em cada categoria por estado em que o cliente se encontra, 
+-- mostrando somente categorias que tenham vendido uma quantidade de items acima de 1000.
+
+SELECT COUNT (olist_products_dataset.product_id) as volume, olist_products_dataset.product_category_name, olist_customers_dataset.customer_state
+FROM olist_products_dataset INNER JOIN olist_order_items_dataset, olist_orders_dataset, olist_customers_dataset 
+ON olist_products_dataset.product_id = olist_order_items_dataset.product_id AND olist_order_items_dataset.order_id = olist_orders_dataset.order_id 
+AND olist_orders_dataset.customer_id = olist_customers_dataset.customer_id
+GROUP BY olist_products_dataset.product_category_name, olist_customers_dataset.customer_state HAVING count (product_category_name) > 1000
+
+
